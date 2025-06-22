@@ -1,0 +1,77 @@
+
+config interface 'loopback'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+	option device 'lo'
+
+config globals 'globals'
+	option ula_prefix 'fd36:f2fd:3b0e::/48'
+	option packet_steering '1'
+
+config interface 'lan'
+	option proto 'static'
+	option netmask '255.255.255.0'
+	option ipaddr '192.168.2.205'
+	option gateway '192.168.2.254'
+	list dns '192.168.2.254'
+	option device 'br-lan'
+
+config switch
+	option name 'switch0'
+	option reset '1'
+	option enable_vlan '1'
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '1'
+	option ports '0t 1 2 5t'
+	option vid '2'
+	option description 'Trusted network'
+
+config interface 'IoT'
+	option proto 'static'
+	option netmask '255.255.255.0'
+	option ipaddr '192.168.5.252'
+	option gateway '192.168.5.1'
+	option force_link '0'
+	list dns '192.168.5.1'
+	option device 'br-IoT'
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '2'
+	option vid '5'
+	option ports '0t 3 4 5t'
+	option description 'IoT devices'
+
+config interface 'Guest'
+	option proto 'static'
+	option netmask '255.255.255.0'
+	list dns '192.168.10.1'
+	option ipaddr '192.168.10.252'
+	option gateway '192.168.10.1'
+	option device 'br-Guest'
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '3'
+	option ports '0t 5t'
+	option vid '10'
+	option description 'Guest network'
+
+config device
+	option name 'br-lan'
+	option type 'bridge'
+	list ports 'eth0.2'
+
+config device
+	option name 'br-IoT'
+	option type 'bridge'
+	list ports 'eth0.5'
+
+config device
+	option name 'br-Guest'
+	option type 'bridge'
+	list ports 'eth0.10'
+

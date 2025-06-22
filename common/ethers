@@ -1,0 +1,47 @@
+#
+#  Lookup man 5 ethers for syntax documentation
+#
+#  Examples :
+#	02:00:11:22:33:44	OpenWrt.lan
+#	02:00:11:22:33:44	192.168.1.1
+c8:2b:96:2f:55:16 ESPRelay-GardenWatering          
+98:cd:ac:15:fe:61 ESPRelay-ShedLights              
+f4:cf:a2:e3:ce:bd metriful
+c8:f7:50:7f:8c:71 NIC-PL1NLHTG0219NB
+68:a4:0e:3e:ec:b6 WashingMachine-SIEMENS-WM6HXK70NL
+a0:51:0b:29:9c:bc wNIC-PL1NLHTG0219NB
+64:95:6c:00:d1:a2 LGwebOSTV
+00:1a:79:4a:fe:1a MAG254-STB
+50:14:79:b3:24:23 iRobot-j7
+68:a4:0e:48:4b:dc Hood-SIEMENS-LC91BUR50
+d8:a0:11:41:44:00 wiz-lightbulb-foyer
+00:d0:2d:df:3a:f9 Honeywell-Gateway
+30:8e:7a:74:d7:56 MXQ-STB-Veranda
+3c:5c:c4:17:71:20 echo-dot-kitchen
+20:fe:00:bf:92:4a echo-dot-bedroom
+14:91:38:a2:76:6a echo-dot-lu
+b8:5f:98:f7:6c:aa echo-show-anton
+68:a4:0e:3f:a0:4f Dryer-SIEMENS-WT8HXM70NL
+70:af:24:04:9b:c6 PhilipsTV
+2c:aa:8e:9c:03:f1 Wyze-cam-Lu
+60:6b:ff:2a:53:94 Nintentdo-Switch 
+2c:aa:8e:7e:f0:cc Wyze-cam-entrance
+ec:b5:fa:07:ce:2d PhilipsHue-Bridge
+e8:fd:f8:ea:7a:e4 Modbus-wifi-gw
+9c:a5:25:c0:89:b6 Modbus-ethernet-gw
+ac:49:db:a4:e8:97 Anton13p
+44:23:7C:A8:A2:68 entrance-spot-1
+44:23:7C:A7:AB:22 entrance-spot-2
+2C:AA:8E:96:45:91 Wyze-cam-garden
+58:38:79:0F:B4:44 Ricoh-Printer-C300W
+00:12:41:E8:E8:60 CCTV-cam-third-floor
+60:38:e0:a1:af:2e owrt
+60:38:e0:a1:af:4e owrt2
+b8:27:eb:73:0c:f7 zigpi               
+b8:27:eb:c5:b3:3c zigpi2
+34:7e:5c:93:fc:cf Sonos-Lounge
+94:9f:3e:d3:a8:fa Sonos-Bedroom
+f0:f6:c1:02:9e:32 Sonos-Sub-Lounge
+78:28:ca:26:6b:f8 Sonos-Kitchen
+54:2a:1b:4e:5e:70 Sonos-Roam
+48:B4:23:B7:CC:E6 FireTV-Veranda
