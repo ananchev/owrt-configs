@@ -2,6 +2,31 @@
 
 This repository manages OpenWrt UCI configuration files for multiple routers, separating common/shared configs from device-specific ones. Sensitive data (like Wi-Fi passwords) is encrypted and never stored in plain text.
 
+## Table of Contents
+
+- [Configuration Files](#configuration-files)
+  - [Wireless Configuration (Sensitive Data)](#wireless-configuration-sensitive-data)
+- [Repository Structure](#repository-structure)
+- [Setting Up Git Filters for Encrypted Files](#setting-up-git-filters-for-encrypted-files)
+  - [1. Filter Scripts](#1-filter-scripts)
+  - [2. Create .gitattributes file to apply the filter to  sensitive files](#2-create-gitattributes-file-to-apply-the-filter-to--sensitive-files)
+  - [3. Add the following to the local .gitconfig to set the actions performed by the filter](#3-add-the-following-to-the-local-gitconfig-to-set-the-actions-performed-by-the-filter)
+  - [4. Initial Encryption of wireless.key files](#4-initial-encryption-of-wirelesskey-files)
+  - [5. First clone of the repo](#5-first-clone-of-the-repo)
+- [.gitignore](#gitignore)
+- [merge_wireless.sh](#merge_wirelesssh)
+- [Copying Files To the Router (Restore/Deploy)](#copying-files-to-the-router-restoredeploy)
+  - [1. Copying Common Config Files](#1-copying-common-config-files)
+  - [2. Copying Device-Specific Files to owrt](#2-copying-device-specific-files-to-owrt)
+  - [3. Copying Device-Specific Files to owrt2](#3-copying-device-specific-files-to-owrt2)
+  - [4. Apply and Check Changes](#4-apply-and-check-changes)
+    - [A. Restart the Network Stack and Wireless Configuration](#a-restart-the-network-stack-and-wireless-configuration)
+    - [B. Restart DAWN](#b-restart-dawn)
+    - [C. Check Wireless Configuration](#c-check-wireless-configuration)
+    - [D. Check Connected Clients and Signal Strength](#d-check-connected-clients-and-signal-strength)
+    - [E. Check DAWN Status](#e-check-dawn-status)
+- [Notes](#notes)
+
 ---
 
 ### Configuration Files
@@ -130,31 +155,35 @@ Vault password is **Ansible vault for home infrastructure**
 
 ### 5. First clone of the repo
 
-When cloning for first time, the following error will pop up
+When you clone this repository for the first time, follow these steps to ensure your sensitive files (like `common/wireless.key`) are **decrypted** in your working directory:
 
-```
-fatal: cannot run ./decrypt.sh: No such file or directory
-error: cannot fork to run external filter './decrypt.sh'
-error: external filter './decrypt.sh' failed
-```
-This happens because Git tries to run the filter scripts before they exist in the freshly cloned directory.
-
-**To work around this:**
-  1. **Clone the repository without checking out files:**
+1. **Clone the repository without checking out files:**
     ```sh
     git clone --no-checkout git@github.com:ananchev/owrt-configs.git
     cd owrt-configs
     ```
-  2. **Ensure the filter scripts (`encrypt.sh` and `decrypt.sh`) are present and executable:**
+
+2. **Ensure the filter scripts are present and executable:**
     ```sh
     chmod +x encrypt.sh decrypt.sh
     ```
-  3. **Now check out the files:**
+
+3. **Check out the files (Git will attempt to decrypt using the filter):**
     ```sh
     git checkout
     ```
 
-This sequence ensures that the filter scripts are available when Git needs to use them, avoiding the error.
+4. **If the sensitive file (e.g., `common/wireless.key`) is still encrypted after checkout:**
+    - This can happen if the filter did not run (e.g., due to a missing executable bit or a Git quirk).
+    - **Manually decrypt the file in your working directory:**
+        ```sh
+        ansible-vault decrypt common/wireless.key
+        ```
+      Enter the vault password when prompted.  
+      This will overwrite the file with the decrypted content.
+
+5. **After this, always keep your working copy decrypted.**  
+   Git will handle encryption on `git add` and decryption on checkout automatically.
 
 ---
 
