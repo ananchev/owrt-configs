@@ -128,6 +128,36 @@ Vault password is **Ansible vault for home infrastructure**
 
 ---
 
+### 5. First clone of the repo
+
+When cloning for first time, the following error will pop up
+
+```
+fatal: cannot run ./decrypt.sh: No such file or directory
+error: cannot fork to run external filter './decrypt.sh'
+error: external filter './decrypt.sh' failed
+```
+This happens because Git tries to run the filter scripts before they exist in the freshly cloned directory.
+
+**To work around this:**
+  1. **Clone the repository without checking out files:**
+    ```sh
+    git clone --no-checkout git@github.com:ananchev/owrt-configs.git
+    cd owrt-configs
+    ```
+  2. **Ensure the filter scripts (`encrypt.sh` and `decrypt.sh`) are present and executable:**
+    ```sh
+    chmod +x encrypt.sh decrypt.sh
+    ```
+  3. **Now check out the files:**
+    ```sh
+    git checkout
+    ```
+
+This sequence ensures that the filter scripts are available when Git needs to use them, avoiding the error.
+
+---
+
 ## .gitignore
 
 Ensures merged `wireless` files are not committed to the repository.
