@@ -1,0 +1,57 @@
+config interface 'loopback'
+	option device 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+# Loopback interface for local system communication
+
+config globals 'globals'
+	option ula_prefix 'fd7c:8f27:8d89::/48'
+	option packet_steering '1'
+# Global system settings, including IPv6 ULA prefix and packet steering
+
+config switch
+	option name 'switch0'
+	option reset '1'
+	option enable_vlan '1'
+# Switch settings, VLAN enabled
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '1'
+	option ports '0t 3'
+	option vid '1'
+# VLAN 1: CPU + port 3 (LAN)
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '2'
+	option ports '0t 5'
+	option vid '2'
+# VLAN 2: CPU + port 5 (WAN)
+
+config device
+	option name 'br-lan'
+	option type 'bridge'
+	list ports 'eth0.2'
+# LAN bridge device, includes LAN VLAN (eth0.2)
+
+config interface 'lan'
+	option device 'br-lan'
+	option proto 'static'
+	option ipaddr '192.168.88.1'
+	option netmask '255.255.255.0'
+	option gateway '192.168.88.1'
+	option dns '8.8.8.8 1.1.1.1'
+# LAN interface, static IP 192.168.88.1, netmask, gateway, and DNS
+
+config interface 'wan'
+	option device 'eth0.1'
+	option proto 'dhcp'
+# WAN interface, uses eth0.1 and obtains IP via DHCP
+
+config interface 'openvpn'
+	option proto 'none'
+	option device 'tun0'
+# OpenVPN interface, uses tun0 device created by OpenVPN
+

@@ -24,20 +24,23 @@ ansible-vault decrypt <file>
 ```
 Enter the vault password when prompted. This will overwrite the file with the decrypted content.
 
-## Git Filter Configuration
+## Adding Sensitive Files to the Repo
 
-- `.gitattributes` should contain:
-  ```
-  common/etc/config/wireless.key filter=ansible-vault
-  ssh/id_rsa_tomatoes filter=ansible-vault
-  common/etc/dropbear/authorized_keys filter=ansible-vault
-  ```
-- Add to your local `.git/config`:
-  ```ini
-  [filter "ansible-vault"]
-      clean = ./encrypt.sh
-      smudge = ./decrypt.sh
-  ```
+Sensitive files (such as Wi-Fi keys, SSH keys, and authorized_keys) must always be initally added using the command line:
+```sh
+git add <file>
+```
+You will be prompted for your Ansible Vault password. This ensures the file is encrypted in the git index, while your local copy remains decrypted. **Do not use the VS Code UI to stage sensitive files, as it may bypass the encryption filter.**
+
+## Git Filter Configuration (Required After Clone)
+
+After cloning the repository, you must manually add the filter section to your local `.git/config`:
+```ini
+[filter "ansible-vault"]
+    clean = ./encrypt.sh
+    smudge = ./decrypt.sh
+```
+This enables automatic encryption/decryption for sensitive files listed in `.gitattributes`.
 
 ## Ansible Vault Usage
 - To encrypt: `ansible-vault encrypt <file>`

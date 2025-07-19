@@ -1,0 +1,5 @@
+
+config openvpn 'decowrl'
+	option config '/etc/openvpn/decowrl.ovpn'
+	option enabled '1'
+

@@ -1,0 +1,34 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=15 
+    
+USE_PROCD=1
+PROG=/usr/bin/reverse-ssh-tunnel.sh
+
+start_service() {
+    procd_open_instance
+    procd_set_param command $PROG
+    procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
+    procd_set_param stdout 1
+    procd_set_param stderr 1
+    procd_set_param file /root/.ssh/id_dropbear_vhost
+    procd_close_instance
+}
+
+stop_service() {
+    # Kill SSH tunnel processes
+    pkill -f "ssh.*connect.tonio.cc" 2>/dev/null || true
+
+    # Remove lock file
+    rm -f /var/run/reverse-ssh-tunnel.lock 2>/dev/null || true
+}
+
+reload_service() {
+    stop
+    start
+}
+
+service_triggers() {
+    procd_add_reload_trigger "network"
+}

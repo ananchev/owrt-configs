@@ -10,21 +10,21 @@ The following files are encrypted with Ansible Vault and managed using git filte
 
 ## Adding a New Sensitive File
 To add a new sensitive file to the repository:
-1. Encrypt the file with Ansible Vault:
-   ```sh
-   ansible-vault encrypt <file>
-   ```
-2. Add the file to `.gitattributes` with:
+1. Add the file to `.gitattributes`:
    ```
    <path/to/file> filter=ansible-vault
    ```
-3. Commit the encrypted file and updated `.gitattributes`.
-4. The file will now be automatically encrypted on commit and decrypted on checkout.
-5. After committing, run a local decrypt to access the file:
+2. Stage the file using the command line:
    ```sh
-   ansible-vault decrypt <file>
+   git add <file>
    ```
-   If you clone the repository elsewhere, follow the steps in `SETUP.md` to ensure all filters and decryption are configured correctly.
+   You will be prompted for your Ansible Vault password. This ensures the file is encrypted in the git index, while your local copy remains decrypted.
+3. Commit the staged file and updated `.gitattributes`:
+   ```sh
+   git commit -m "Add new sensitive file with encryption filter"
+   ```
+4. Never use the VS Code UI to stage sensitive files, as it may bypass the encryption filter.
+5. If you clone the repository elsewhere, always configure the filter in your local `.git/config` (see `SETUP.md`) before adding or checking out sensitive files.
 
 ## Wireless File Clarifications
 - The order of `option key` lines in `wireless.key` must match the order of `wifi-iface` sections in `wireless.main`.
@@ -44,5 +44,20 @@ To add a new sensitive file to the repository:
 ## Best Practices
 - Never commit decrypted sensitive files to the repository.
 - Always verify that sensitive files are encrypted before pushing changes.
+
+## How to Add Sensitive Files
+Always use the command line to add sensitive files:
+```sh
+git add <file>
+```
+This will prompt for your Ansible Vault password and stage the encrypted version. Your local file remains decrypted. Never use the VS Code UI to stage sensitive files.
+
+## Git Filter Setup Reminder
+After cloning, always add the filter section to your local `.git/config` to enable encryption/decryption:
+```ini
+[filter "ansible-vault"]
+    clean = ./encrypt.sh
+    smudge = ./decrypt.sh
+```
 
 See `CONFIG.md` for configuration file roles and `DEPLOY.md` for deployment instructions.

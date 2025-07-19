@@ -1,0 +1,10 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+
+# Enable NAT masquerading for LAN-to-VPN and LAN-to-WAN
+nft add table inet nat
+nft add chain inet nat postrouting { type nat hook postrouting priority 100 \; }
+nft add rule inet nat postrouting oifname "tun0" ip saddr 192.168.88.0/24 counter masquerade
+nft add rule inet nat postrouting oifname "eth0.1" ip saddr 192.168.88.0/24 counter masquerade
+
+exit 0

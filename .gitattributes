@@ -1,3 +1,10 @@
 common/etc/config/wireless.key filter=ansible-vault
+owrt3/etc/config/wireless.key filter=ansible-vault
 ssh/id_rsa_tomatoes filter=ansible-vault
 common/etc/dropbear/authorized_keys filter=ansible-vault
+ssh/id_dropbear_vhost.pub filter=ansible-vault
+owrt3/root/.ssh/id_dropbear_vhost filter=ansible-vault
+owrt3/etc/openvpn/ca.crt filter=ansible-vault
+owrt3/etc/openvpn/client.crt filter=ansible-vault
+owrt3/etc/openvpn/client.key filter=ansible-vault
+owrt3/etc/openvpn/ta.key filter=ansible-vault

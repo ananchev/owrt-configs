@@ -3,9 +3,15 @@
 
 set -e
 
-MAIN="common/etc/config/wireless.main"
-KEY="common/etc/config/wireless.key"
-OUT="common/etc/config/wireless"
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <folder>"
+  exit 1
+fi
+
+FOLDER="$1"
+MAIN="$FOLDER/wireless.main"
+KEY="$FOLDER/wireless.key"
+OUT="$FOLDER/wireless"
 
 if [ ! -f "$MAIN" ]; then
   echo "Missing $MAIN"
@@ -28,8 +34,9 @@ while IFS= read -r line; do
   placeholder=$(echo "$line" | cut -d'=' -f1)
   value=$(echo "$line" | cut -d"'" -f2)
 
-  # Replace placeholder in OUT with actual value
+  # Replace both KEY_xxx and __KEY_xxx__ in OUT with actual value
   sed -i '' "s|$placeholder|$value|g" "$OUT"
+  sed -i '' "s|__${placeholder}__|$value|g" "$OUT"
 done < "$KEY"
 
 echo "Merged $MAIN and $KEY into $OUT"
