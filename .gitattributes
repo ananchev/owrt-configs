@@ -1,1 +1,3 @@
-common/wireless.key filter=ansible-vault
+common/etc/config/wireless.key filter=ansible-vault
+ssh/id_rsa_tomatoes filter=ansible-vault
+common/etc/dropbear/authorized_keys filter=ansible-vault
