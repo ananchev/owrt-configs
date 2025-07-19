@@ -3,9 +3,9 @@
 
 set -e
 
-MAIN="common/wireless.main"
-KEY="common/wireless.key"
-OUT="common/wireless"
+MAIN="common/etc/config/wireless.main"
+KEY="common/etc/config/wireless.key"
+OUT="common/etc/config/wireless"
 
 if [ ! -f "$MAIN" ]; then
   echo "Missing $MAIN"
