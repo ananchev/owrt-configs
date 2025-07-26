@@ -47,8 +47,8 @@ log_msg "Service started - tunneling SSH:$REVERSE_SSH_PORT, Web:$REVERSE_WEB_POR
 while true; do
     # Start the tunnel (this will hang if successful)
     ssh $SSH_OPTS -N \
-        -R $REVERSE_SSH_PORT:localhost:22 \
-        -R $REVERSE_WEB_PORT:localhost:80 \
+        -R 0.0.0.0:$REVERSE_SSH_PORT:localhost:22 \
+        -R 0.0.0.0:$REVERSE_WEB_PORT:localhost:80 \
         $REMOTE_USER@$REMOTE_HOST
     
     # Only log if tunnel drops
